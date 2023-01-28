@@ -40,12 +40,13 @@ class RegisterFragment : Fragment() {
     }
 
     private fun getFoodValue(): Food = with(binding) {
-        Food(title = editTextTitle.text.toString(),
+        Food(
+            title = editTextTitle.text.toString(),
             description = editTextDescription.text.toString(),
-            price = editTextPrice.toDouble(),
+            price = editTextPrice.getDouble(),
             image = editTextImage.text.toString()
         )
     }
 
-    fun EditText.toDouble(): Double = this.toString().toDouble()
+    fun EditText.getDouble(): Double = this.text.toString().toDouble()
 }
