@@ -1,5 +1,6 @@
 package dominio.proprio.organic.adapter
 
+import android.content.ClipData.Item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,8 +9,10 @@ import dominio.proprio.organic.databinding.FoodBinding
 import dominio.proprio.organic.model.Food
 
 class Adapter(
-    foodsList:List<Food>
-): RecyclerView.Adapter<Adapter.FoodViewHolder>() {
+    foodsList: List<Food>,
+    private val onItemCLicked: (food: Food) -> Unit = {}
+
+) : RecyclerView.Adapter<Adapter.FoodViewHolder>() {
 
     private val foodsList = foodsList.toMutableList()
 
@@ -22,12 +25,16 @@ class Adapter(
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val currentFood = foodsList[position]
-        with(holder.binding){
+        with(holder.binding) {
             Glide.with(foodImageView).load(currentFood.image).into(foodImageView)
             textViewTitle.text = currentFood.title
             textViewDescription.text = currentFood.description
             textViewPrice.text = currentFood.price.toString()
         }
+        holder.itemView.setOnClickListener {
+            onItemCLicked.invoke(currentFood)
+        }
+
     }
 
     override fun getItemCount() = foodsList.size
