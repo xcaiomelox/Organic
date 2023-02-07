@@ -1,13 +1,18 @@
 package dominio.proprio.organic.ui
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.ViewTarget
 import dominio.proprio.organic.R
 import dominio.proprio.organic.adapter.AppDataBase
 import dominio.proprio.organic.database.dao.FoodDao
@@ -16,7 +21,7 @@ import dominio.proprio.organic.model.Food
 
 class RegisterFragment : Fragment() {
 
-    private lateinit var binding: FragmentRegisterBinding
+        private lateinit var binding: FragmentRegisterBinding
     private val args: RegisterFragmentArgs by navArgs()
     private val food: Food? by lazy { args.fooddata }
     private val dao by lazy {
@@ -55,7 +60,7 @@ class RegisterFragment : Fragment() {
             title = editTextTitle.text.toString(),
             description = editTextDescription.text.toString(),
             price = editTextPrice.getDouble(),
-            image = editTextImage.text.toString()
+            image = editTextImageUrl.text.toString()
         )
     }
 
@@ -67,8 +72,10 @@ class RegisterFragment : Fragment() {
                 editTextTitle.setText(it.title)
                 editTextDescription.setText(it.description)
                 editTextPrice.setText(it.price.toString())
-                editTextImage.setText(it.image)
+                editTextImageUrl.setText(it.image)
+                Glide.with(foodImage).load(food!!.image).into(foodImage)
             }
         }
     }
 }
+
